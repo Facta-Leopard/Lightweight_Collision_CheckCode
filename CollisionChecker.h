@@ -66,13 +66,25 @@ inline bool GF_Check_SAT_ByCollider(
         T_AxisCount = 2;
 
         // Front(Z-Axis Is Invalid)
+        // Advanced Code: Normalization
         Vec3_T_DirectionA[_DIRECTION_RIGHT].z = 0.f;
+        Vec3_T_DirectionA[_DIRECTION_RIGHT] = Vec3_T_DirectionA[_DIRECTION_RIGHT].MF_Normalize();
+
         Vec3_T_DirectionA[_DIRECTION_UP].z    = 0.f;
+        Vec3_T_DirectionA[_DIRECTION_UP] = Vec3_T_DirectionA[_DIRECTION_UP].MF_Normalize();
+
         Vec3_T_DirectionA[_DIRECTION_FRONT].z = 0.f;
+        Vec3_T_DirectionA[_DIRECTION_FRONT] = Vec3_T_DirectionA[_DIRECTION_FRONT].MF_Normalize();
+
 
         Vec3_T_DirectionB[_DIRECTION_RIGHT].z = 0.f;
-        Vec3_T_DirectionB[_DIRECTION_UP].z    = 0.f;
+        Vec3_T_DirectionB[_DIRECTION_RIGHT] = Vec3_T_DirectionB[_DIRECTION_RIGHT].MF_Normalize();
+
+        Vec3_T_DirectionB[_DIRECTION_UP].z = 0.f;
+        Vec3_T_DirectionB[_DIRECTION_UP] = Vec3_T_DirectionB[_DIRECTION_UP].MF_Normalize();
+
         Vec3_T_DirectionB[_DIRECTION_FRONT].z = 0.f;
+        Vec3_T_DirectionB[_DIRECTION_FRONT] = Vec3_T_DirectionB[_DIRECTION_FRONT].MF_Normalize();
 
         break;
 
@@ -82,13 +94,25 @@ inline bool GF_Check_SAT_ByCollider(
         T_AxisCount = 2;
 
         // Up(Y-Axis Is Invalid)
+        // Advanced Code: Normalization
         Vec3_T_DirectionA[_DIRECTION_RIGHT].y = 0.f;
-        Vec3_T_DirectionA[_DIRECTION_UP].y    = 0.f;
+        Vec3_T_DirectionA[_DIRECTION_RIGHT] = Vec3_T_DirectionA[_DIRECTION_RIGHT].MF_Normalize();
+
+        Vec3_T_DirectionA[_DIRECTION_UP].y = 0.f;
+        Vec3_T_DirectionA[_DIRECTION_UP] = Vec3_T_DirectionA[_DIRECTION_UP].MF_Normalize();
+
         Vec3_T_DirectionA[_DIRECTION_FRONT].y = 0.f;
+        Vec3_T_DirectionA[_DIRECTION_FRONT] = Vec3_T_DirectionA[_DIRECTION_FRONT].MF_Normalize();
+
 
         Vec3_T_DirectionB[_DIRECTION_RIGHT].y = 0.f;
-        Vec3_T_DirectionB[_DIRECTION_UP].y    = 0.f;
+        Vec3_T_DirectionB[_DIRECTION_RIGHT] = Vec3_T_DirectionB[_DIRECTION_RIGHT].MF_Normalize();
+
+        Vec3_T_DirectionB[_DIRECTION_UP].y = 0.f;
+        Vec3_T_DirectionB[_DIRECTION_UP] = Vec3_T_DirectionB[_DIRECTION_UP].MF_Normalize();
+
         Vec3_T_DirectionB[_DIRECTION_FRONT].y = 0.f;
+        Vec3_T_DirectionB[_DIRECTION_FRONT] = Vec3_T_DirectionB[_DIRECTION_FRONT].MF_Normalize();
 
         break;
 
@@ -118,8 +142,10 @@ inline bool GF_Check_SAT_ByCollider(
     {
         for (int j = 0; j < T_AxisCount; ++j)
         {
+            // Advanced Code; Defence of Problem: Zero Scale
             Vec3 Vec3_T_Cross = Vec3_T_DirectionA[i].MF_Cross_Product(Vec3_T_DirectionB[j]);
-            Vec3_T_Axes_s[T_Index++] = Vec3_T_Cross.MF_Normalize();
+            if (Vec3_T_Cross.MF_Get_SquaredLength() > LL_G_ZeroScaleFloat)
+                Vec3_T_Axes_s[T_Index++] = Vec3_T_Cross.MF_Normalize();
         }
     }
 
@@ -138,9 +164,9 @@ inline bool GF_Check_SAT_ByCollider(
         T_RadiusB += fabs(Vec3_T_ProjectionAxis.MF_Dot_Product(Vec3_T_DirectionB[1]) * Vec3_T_ScaleB.y);
         T_RadiusB += fabs(Vec3_T_ProjectionAxis.MF_Dot_Product(Vec3_T_DirectionB[2]) * Vec3_T_ScaleB.z);
 
-        float T_ProjextionDistance = fabs(Vec3_T_ProjectionAxis.MF_Dot_Product(Vec3_T_DistanceBetween));
+        float T_ProjectionDistance = fabs(Vec3_T_ProjectionAxis.MF_Dot_Product(Vec3_T_DistanceBetween));
 
-        if (T_ProjextionDistance > (T_RadiusA + T_RadiusB))
+        if (T_ProjectionDistance > (T_RadiusA + T_RadiusB))
         {
             return false;
         }
