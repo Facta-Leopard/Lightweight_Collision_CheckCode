@@ -11,6 +11,24 @@
 - SAT checking is optional and can be turned on or off.
 
 ---
+# Update 
+
+## Version 1.1
+
+### Changes from v1.0
+
+1. **Normalization After Axis Masking**
+   - After masking invalid axis components (based on `E_VIEW_TYPE`), all direction vectors are now re-normalized using `MF_Normalize()`.
+   - Prevents projection distortion due to unnormalized directional axes.
+
+2. **Safe Cross Product Normalization**
+   - Added epsilon check (`SquaredLength > threshold`) before normalizing cross product vectors.
+   - Prevents accidental normalization of zero vectors and avoids NaN results.
+
+3. **Fixed Typo in Variable Name**
+   - Renamed `T_ProjextionDistance` → `T_ProjectionDistance` for clarity and consistency.
+
+---
 
 ## 1. Key Concepts Summary
 
@@ -154,6 +172,28 @@ License page: [https://creativecommons.org/licenses/by/4.0](https://creativecomm
 - 매트릭스를 사용하지 않고 오직 `중심점`, `방향벡터`, `스케일`, `카메라뷰 타입`만을 기반으로 2D/3D 모두 대응 가능합니다.
 
 - SAT 계산을 선택적으로 할 수 있습니다.
+
+---
+
+# 업데이트
+
+## Version 1.1
+
+1. 정규화 보정 추가
+
+- ViewType별로 축 무효화 후, 해당 방향 벡터들을 다시 MF_Normalize() 하도록 변경
+
+- 정규화가 무너지지 않도록 해 정확한 Dot 투영 결과 보장
+
+2. Cross Product 정규화 전 안정성 검사
+
+- 두 축의 Cross 결과 벡터가 0벡터인 경우를 걸러냄
+
+= SquaredLength > epsilon 조건을 통해 Normalize() 시 NaN 방지
+
+3. 오타 수정
+
+- T_ProjextionDistance → T_ProjectionDistance 로 변수명 오탈자 수정
 
 ---
 
